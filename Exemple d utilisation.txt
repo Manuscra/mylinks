@@ -1,0 +1,22 @@
+// Exemple d'utilisation :
+
+// Récupérer un chip par son id
+const chip = chipsManager.getChipById("3");
+console.log(chip);
+
+// Modifier un chip par son id
+chipsManager.setChipById("3", { nom: "Pommes vertes", couleur: "#00ff00", contraste: "#000000" });
+
+// Récupérer la liste complète des chips
+const allChips = chipsManager.getAllChips();
+console.log(allChips);
+
+// Réinitialiser la liste avec de nouvelles données
+const newChips = [
+    { nom: "Carotte", couleur: "#FFA500", contraste: "#000000", id: "9" },
+    { nom: "Brocoli", couleur: "#008000", contraste: "#ffffff", id: "21" }
+];
+chipsManager.setInitialChips(newChips);
+
+// Vérifier la liste après réinitialisation
+console.log(chipsManager.getAllChips());

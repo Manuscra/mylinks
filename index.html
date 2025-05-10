@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <title>Volet Latéral</title>
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+ 
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chips.css">
+  <link rel="stylesheet" href="css/materialicons.css">
+  <link rel="stylesheet" href="css/madal.css">
+</head>
+<body>
+   
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container" style="justify-content: left;"><img src="img/root.svg"/><h1>Mes liens</h1></div>
+    <div class="container-fluid bd-example m-0 border-0 justify-content-center py-3 gap-2"> 
+        <button type="button" class="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center" id="newlink"><span class="material-icons">add_link</span> Lien</button>
+        <button type="button" class="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center" id="listedesliens"><span class="material-icons">list_alt</span> Liste</button>
+        <button type="button" class="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center" id="lesfavos"><span class="material-icons">favorite</span> Favoris</button>
+        <button type="button" class="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center" id="partages"><span class="material-icons">share</span> Partage</button>  
+    </div>
+  </nav>
+ 
+
+    <div class="col">
+      <div id="side-panel" class="side-panel">
+        <button id="toggle-btn" class="toggle-btn"></button>
+        <div class="my-volet" id="myVolet">
+          <p></p>
+          <h2>Tags :</h2>
+          <div>
+            <ul class="nav nav-tabs nav-tag">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#" id="selectionTab">Selection</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="editionTab">Edition</a>
+              </li>
+            </ul>
+          </div>
+          <div class="chips-container" id="chipsContainer"></div>
+          <input type="text" id="chipInput" placeholder=" Ajouter... ">
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+      <div class="card me-4" id="research">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <h6 class="text-nowrap me-2">Filtres :</h6>
+          <div id="filtractif"></div>
+          <form class="d-flex align-items-center" role="search">
+            <div class="radio-group-column">
+              <div class="radio-item">
+                <label class="form-check-label" for="rdall">Tout :</label>
+                <input class="form-check-input" type="radio" name="radioDefault" id="rdall" checked>
+              </div>
+              <div class="radio-item">
+                <label class="form-check-label" for="rdcld">Cloud :</label>
+                <input class="form-check-input" type="radio" name="radioDefault" id="rdcld">
+              </div>
+              <div class="radio-item">
+                <label class="form-check-label" for="rdfic">Perso :</label>
+                <input class="form-check-input" type="radio" name="radioDefault" id="rdfic">
+              </div>
+            </div>
+            <select id="queltype" class="form-select" style="width: 200px; margin-right: 10px;">
+              <option>select 1</option> <!--A modifier appeler la fonction pour afficher les types -----------> 
+              <option>select 2</option>
+            </select>
+            <input class="form-control me-2" type="search" placeholder="Chercher" aria-label="Search" style="width: 200px;">
+            <button class="btn btn-danger" type="submit"><span class="material-icons">search</span></button>
+          </form>
+        </div>
+      </div>
+    
+      <div class ="liste-container" id="listeContainer"></div>
+
+      <!-- Div pour l'onglet formulaire-->
+      <div id="newformlink">
+        <div class="card" style="margin: 15px; padding:10px;">
+          <div class="card-body">
+            <form id="formlink" onsubmit="submitFormLien(event)">
+              <input type="hidden" id="dataId" name="id" value="" /> <!-- Champ caché pour l'ID -->
+              <div class="mb-3">
+                <label for="ctyp" class="form-label">Type :</label>
+                <select id="queltype" class="form-select">
+                  <option>select 1</option> <!--A modifier appeler la fonction pour afficher les types -----------> 
+                  <option>select 2</option>
+                </select>
+              </div>
+              <div class="form-check d-inline-block me-3">
+                <input class="form-check-input" type="radio" name="radioDefault" id="rdcld">
+                <label class="form-check-label" for="rdcld">Cloud</label>
+              </div>
+              <div class="form-check d-inline-block">
+                <input class="form-check-input" type="radio" name="radioDefault" id="rdfic">
+                <label class="form-check-label" for="rdfic">Perso</label>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="nom" class="form-label">Nom : </label>
+                <input type="text" class="form-control" name="nom" required>
+              </div>
+              <div class="mb-3">
+                <label for="descrip" class="form-label">Description : </label>
+                <input type="text" class="form-control" name="descrip" required>
+              </div>
+              <div class="mb-3">
+                <label for="url" class="form-label">URL / PATH : </label>
+                <input type="url" class="form-control" name="url" required>
+              </div>
+              <br>
+              <h7>Tags associés au lien</h7>
+              <div id="itemvalide"></div>
+              <button type="submit" class="btn btn-danger" id="envoye" style="float: right;">Envoyer</button>
+              <br>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal pour modifier le chip -->
+    <div class="modal fade" id="chipModal" tabindex="-1" aria-labelledby="chipModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="chipModalLabel">Modifier le tag :</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input type="text" id="chipModalId" class="chipModalId" hidden>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Nom :</label>
+                <input type="text" id="chipModalLabel" class="chipModalLabel">
+              </div>
+              <div class="mb-3">
+                <label for="chipModalColor">Couleur :</label>
+                <input type="color" id="chipModalColor" class="chipModalColor">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger">Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal pour supprimer le chip -->
+    <div class="modal fade" id="chipDeleteModal" tabindex="-1" aria-labelledby="chipDeleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="chipDeleteModalLabel">Supprimer le tag :</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Êtes-vous sûr de vouloir supprimer le tag : <span id="delname"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Annulez l'action en cours">Annuler</button>
+            <form>
+              <input type="text" id="chipDeleteId" class="chipDeleteId" hidden>
+              <button type="button" class="btn btn-danger" title="Supprimez définitivement le tag">Supprimer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal pour supprimer le lien -->
+    <div class="modal fade" id="lienDeleteModal" tabindex="-1" aria-labelledby="lienDeleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="lienDeleteModalLabel">Supprimer le lien :</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Êtes-vous sûr de vouloir supprimer le lien : <span id="deliename"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Annulez l'action en cours">Annuler</button>
+            <form>
+              <input type="text" id="lienDeleteId" class="lienDeleteId" hidden>
+              <button type="button" class="btn btn-danger" title="Supprimez définitivement le lien">Supprimer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <script src="js/script.js"></script>
+  <script src="js/chips.js"></script>
+  <script src="js/lnk.js"></script>
+  <script src="js/newlnk.js"></script>
+
+</body>
+</html>

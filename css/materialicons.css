@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Material Icons';
+    src: url('../font/icon.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-size: x-large;
+}

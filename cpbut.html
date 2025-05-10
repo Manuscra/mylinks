@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copier le texte dans une div</title>
+    <style>
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #000;
+            width: 300px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="copyButton">Cliquez pour copier le texte</button>
+
+    <div id="output"></div> <!--Le texte du bouton va apparaître ici.-->
+
+    <script>
+        // Sélectionne le bouton et la div
+        const button = document.getElementById('copyButton');
+        const outputDiv = document.getElementById('output');
+
+
+        // Ajoute un écouteur d'événement au bouton
+        button.addEventListener('click', function() {
+            // Crée une nouvelle instance du bouton
+            const newButton = document.createElement('button');
+            newButton.textContent = button.textContent;
+            
+            // Copie les attributs et les propriétés du bouton original
+            newButton.id = 'copyButton';  // On peut aussi changer l'ID pour qu'il soit unique
+            newButton.addEventListener('click', function() {
+                 outputDiv.removeChild(newButton);  // Supprime le bouton de la div
+            });
+
+            // Ajoute le nouveau bouton dans la div
+            outputDiv.appendChild(newButton);
+        });
+    </script>
+
+</body>
+</html>
+
