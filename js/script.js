@@ -3,8 +3,10 @@ const mainContent = document.getElementById('main-content');
 const toggleBtn = document.getElementById('toggle-btn');
 const sidePanel = document.getElementById('side-panel');
 const voletDiv = document.getElementById('myVolet');
+const newlien = document.getElementById('newlink');
 
-
+// Parametres
+const heberge= "duss.alwaysdata.net";
 
 function textduBouton() {
   // Modifier le texte du bouton selon l'état du volet
@@ -52,6 +54,11 @@ function closeSidePanel() {
   if (sidePanel.classList.contains('open')) {
     toggleBtn.click(); // Simule un clic sur le bouton
   }
+}
+
+// Fonction pour simuler un clic sur le bouton newLnk
+function openNewlink() {
+    newlien.click(); // Simule un clic sur le bouton
 }
 
 

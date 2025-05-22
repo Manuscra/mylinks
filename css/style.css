@@ -195,6 +195,12 @@ body {
   transform: scale(1.01);
 }
 
+.card-icon {
+  font-size: 16px !important;
+  color: var(--main-bg-color);
+  margin-right: 10px;
+}
+
 .dropdown-menu a:active, .dropdown-menu li:active {
   background-color: var(--main-hv-color);
 }

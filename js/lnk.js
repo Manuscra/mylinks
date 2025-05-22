@@ -6,9 +6,9 @@ lesfavs.addEventListener('click', lesliens);
 const cardManager = {
   // Liste initiale des cartes
   cards: [
-      { id: "8", title: "Special title", lnk: "http://www.test.do", date: "2005-02-15", text: "With supporting text below as a natural lead-in to additional content.", shared: false, liked: false, tags: [15, 208]},
-      { id: "3", title: "Speciae", lnk: "http://www.test.do", date: "2025-03-15", text: "With supporting text below as a natural lead-in to additional content.", shared: true, liked: true, tags: [3, 15, 208] },
-      { id: "15", title: "title", lnk: "http://www.test.do", date: "2011-12-01", text: "With supporting text below as a natural lead-in to additional content.", shared: true, liked: false, tags: [3, 125] }
+      { id: "8", title: "Special title", lnk: "http://www.test.do", date: "2005-02-15", text: "With supporting text below as a natural lead-in to additional content.", type: 2, shared: false, liked: false, tags: [15, 208]},
+      { id: "3", title: "Speciae", lnk: "https://duss.alwaysdata.net/mylinks/", date: "2025-03-15", text: "With supporting text below as a natural lead-in to additional content.", type: 1, shared: true, liked: true, tags: [3, 15, 208] },
+      { id: "15", title: "title", lnk: "http://www.test.do", date: "2011-12-01", text: "With supporting text below as a natural lead-in to additional content.", type: 3, shared: true, liked: false, tags: [3, 125] }
   ],
 
   // Getter: récupérer une carte par son id
@@ -116,6 +116,40 @@ function diffEnAnneesMoisJours(dateStr) {
   return resultats.join(', ');
 }
 
+// Fonction pour préremplissage du formulaire pour modification du lien
+function handleModify(cardId) {
+  const card = cardManager.getCardById(cardId);
+  if (card) {
+    // Ouvrir le formulaire de modification
+    openNewlink(); // Simule le clic sur le bouton pour ouvrir le formulaire
+    
+    const form = document.getElementById('formlink');
+    if (!form) return;
+
+    // Préremplir l'input caché id
+    const dataId = form.querySelector('#dataId');
+    if (dataId && card.id !== undefined) dataId.value = card.id;
+    // Préremplir les champs texte
+    if (card.title !== undefined) form.querySelector('input[name="nom"]').value = card.title;
+    if (card.text !== undefined) form.querySelector('input[name="descrip"]').value = card.text;
+    if (card.lnk !== undefined) form.querySelector('input[name="url"]').value = card.lnk;
+
+    // Préremplir le select
+    const select = form.querySelector('select.queltype');
+    if (select && card.type !== undefined) {
+      changerSelectionParDefaut(card.type); //Fct definit dans select.js
+    }
+
+    // Préremplir le bouton de partagepréremplir les tags
+    card.tags.forEach(tagId => {
+        whereselect.set('itemvalide');
+        affchipcont(String(tagId));
+    });
+  } else {
+    console.error(`Aucune carte trouvée avec l'ID ${cardId}`);
+  }
+};
+
 // Fonction pour créer le menu déroulant des cards
 function createDropdown(cardId, cardTitle) {
   const dropdown = document.createElement('div');
@@ -152,11 +186,8 @@ function createDropdown(cardId, cardTitle) {
   liModif.appendChild(iconModif);
   liModif.appendChild(textModif);
 
-  // Gestionnaire de clic
-  liModif.addEventListener('click', () => {
-    console.log(`Modifier cliqué pour cardid ${cardId}`);
-    // Appeler ici une fonction comme: handleModify(cardId);
-  });
+  // Gestionnaire de clic pour la modification de la card
+  liModif.addEventListener('click', () => handleModify(cardId));
 
   // Création de l'élément "Supprimer"
   const liDelete = document.createElement('li');
@@ -198,7 +229,7 @@ function createDropdown(cardId, cardTitle) {
       // Récupérer l'ID du lien à supprimer
       const lienId = document.querySelector('#lienDeleteModal .modal-footer .lienDeleteId').innerHTML;
 
-      // Supprimer le lien correspondante dans votre base de données
+      // Supprimer le lien correspondante dans votre base de données BDD
       // si valide passer à la suite
 
       // Supprimer la card du DOM avec l'ID spécifique
@@ -248,11 +279,24 @@ function lesliens() {
         const cardHeader = document.createElement('div');
         cardHeader.className = 'card-header d-flex justify-content-between align-items-center';
 
+        const cardIcon = document.createElement('span');
+        cardIcon.className = ('material-icons card-icon');
+        try {
+          const parsed = new URL(card.lnk);
+          if (parsed.hostname === heberge) {
+            cardIcon.textContent = 'my_location';
+          } else {
+            cardIcon.textContent = '🕸';
+          }
+        } catch (e) {
+          console.log("URL invalide.");
+        }
+
         const cardTitle = document.createElement('a');
         cardTitle.href = card.lnk;
         cardTitle.target = '_blank';
         const cardTitleText = document.createElement('h5');
-        cardTitleText.className = 'card-title';
+        cardTitleText.className = 'card-title m-0';
         const cardTitleSpan = document.createElement('span');
         cardTitleSpan.setAttribute('data-toggle', 'tooltip');
         cardTitleSpan.setAttribute('title', card.lnk);
@@ -303,8 +347,7 @@ function lesliens() {
         // Dropdown menu
         const dropdownElement = createDropdown(cardid, card.title);
 
-
-        cardHeader.append(cardTitle, cardDate, shareButton, likeButton, dropdownElement);
+        cardHeader.append(cardIcon, cardTitle, cardDate, shareButton, likeButton, dropdownElement);
 
         const cardBody = document.createElement('div');
         cardBody.className = 'card-body';
@@ -315,9 +358,7 @@ function lesliens() {
         const result = chipsManager.getChipsFromCardId(cardid, cardManager);
         
         result.forEach(chip => {;
-
           affChip(chip.nom, chip.couleur, chip.contraste, chip.id, cardFooter);
-
         });
 
         cardDiv.append(cardHeader, cardBody, cardFooter);

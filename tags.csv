@@ -1,0 +1,41 @@
+id,nom,couleur,contraste
+1,3D,#1c71d8,white
+2,Alwaysdata,#45B664,#3C3C3C
+3,BD,#ED1836,white
+4,BIA,#d98fd1,#3C3C3C
+5,Bricolage,#4A64E7,white
+6,Bureautique,#02F6CA,#3C3C3C
+7,Configuration,#2FA33C,white
+8,dessin,#E54BCE,#3C3C3C
+9,Divers,#EB9158,#3C3C3C
+10,Domotique,#E9F34F,#3C3C3C
+11,Numérique,#cf0c83,white
+12,Technologie,#4d64a8,white
+13,Electronique,#15D1BC,#3C3C3C
+14,Energie,#84EAB3,#3C3C3C
+15,Futura Sciences,#572050,white
+16,Graphisme,#24E177,#3C3C3C
+17,RUPN,#408ebf,white
+18,Linux,#107B95,white
+19,PIX,#3956BA,white
+20,Programmation,#ED3EE3,#3C3C3C
+21,QCM Techno,#F63646,white
+22,Santé,#0752B6,white
+23,SIG,#41FABB,#3C3C3C
+24,temporaire,#33ED88,#3C3C3C
+25,Tools,#3DB378,#3C3C3C
+26,Non Classé,#000000,white
+27,Archéologie,#865e3c,white
+28,Recherche,#262c06,white
+29,Robotique,#1c1743,white
+30,Musique,#c01c28,white
+31,Education,#3584e4,white
+32,Livre,#f6d32d,#3C3C3C
+33,Mécanique,#ff7800,#3C3C3C
+34,Actualité,#8ff0a4,#3C3C3C
+35,Pédagogie,#813d9c,white
+36,Sécurité,#56416f,white
+37,Arduino,#3584e4,white
+38,Menuiserie,#986a44,white
+39,Réseau,#e0e0e0,#3C3C3C
+40,Codage,#ff7800,#3C3C3C

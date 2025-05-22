@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Requête API avec Token</title>
+</head>
+<body>
+  <h1>Résultats de l'API</h1>
+  <pre id="resultat">Chargement...</pre>
+
+  <script>
+    const url = "https://duss.alwaysdata.net/mylinks/tags";
+    const token = sessionStorage.getItem('jwt');
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Erreur HTTP " + response.status);
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById("resultat").textContent = JSON.stringify(data, null, 2);
+    })
+    .catch(error => {
+      document.getElementById("resultat").textContent = "Erreur : " + error.message;
+    });
+  </script>
+</body>
+</html>
+

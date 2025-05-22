@@ -1,0 +1,64 @@
+🛠️ 2. Dans ton application Flask, ajoute :
+Soit : autoriser CORS globalement
+
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # autorise toutes les origines
+
+Soit : autoriser une origine spécifique
+
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app, origins=["http://localhost:3000"])  # ou ton domaine front
+
+✅ 3. Extrait d’API Flask compatible
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/mylinks/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if username == 'test' and password == 'pass':
+        return jsonify(token='fake-jwt-token'), 200
+    else:
+        return jsonify(error='Invalid credentials'), 401
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+✅ Et côté JS : rien à changer
+
+Ton code fetch peut rester comme ça :
+
+fetch('http://localhost:5000/mylinks/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: 'test',
+    password: 'pass'
+  })
+})
+.then(res => res.json())
+.then(data => {
+  sessionStorage.setItem('jwt', data.token);
+  console.log('Token stocké:', data.token);
+})
+.catch(err => {
+  console.error('Erreur :', err);
+  alert('Erreur : ' + err.message);
+});
+
+

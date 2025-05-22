@@ -112,22 +112,12 @@ const whereselect = {
     }
 };
 
-// Fonction pour générer une chip
-function affChip(nom, couleur, contraste, id, Container) {
-    const chip = document.createElement('span');
-    chip.className = `badge chip rounded-pill me-1`;
-    chip.textContent = nom;
-    chip.setAttribute('data-id', id);
-    chip.setAttribute('data-toggle', 'tooltip');
-    chip.style.backgroundColor = couleur;
-    chip.style.color = contraste;
-    chip.style.fontWeight = 'normal';
-    chip.style.cursor = 'pointer';
-    
-    chip.addEventListener('click', function() {
+// Fonction pour afficher les chips dans le conteneur
+function affchipcont(id) {
         const outputDiv = document.getElementById(whereselect.get());
+        console.log(outputDiv);  
         if (!selectChips.includes(id)) {
-            //if (whereselect.get() === 'filtractif') selectChips.push(id);
+            // Si la chip n'est pas déjà sélectionnée, l'ajouter à la liste
             selectChips.push(id);
 
             // Récupérer les données de la chip
@@ -160,6 +150,22 @@ function affChip(nom, couleur, contraste, id, Container) {
                 outputDiv.appendChild(newButton);
             }
         }
+}
+
+// Fonction pour générer une chip
+function affChip(nom, couleur, contraste, id, Container) {
+    const chip = document.createElement('span');
+    chip.className = `badge chip rounded-pill me-1`;
+    chip.textContent = nom;
+    chip.setAttribute('data-id', id);
+    chip.setAttribute('data-toggle', 'tooltip');
+    chip.style.backgroundColor = couleur;
+    chip.style.color = contraste;
+    chip.style.fontWeight = 'normal';
+    chip.style.cursor = 'pointer';
+    
+    chip.addEventListener('click', function() {
+        affchipcont(id);
     });
     Container.appendChild(chip);
 }
@@ -178,7 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const contrasteColor = getContrastYIQ(chipColor); // Calculer le contraste de la couleur
         const chipId = document.getElementById('chipModalId').value; // Récupérer l'ID de la chip
 
-        // Update la chip correspondante dans la base de données
+        // Update la chip correspondante dans la base de données BDD
+        
         // si valide passer à la suite
         const chipData = chipsManager.getChipById(chipId);
         if (chipData) {
@@ -193,16 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
         chipElements.forEach(chipElement => {
             const chipid = chipElement.getAttribute('data-id');
             if (chipid === chipId) {
-                // Sélectionner tous les éléments span à l'intérieur de chipElement
-                const spans = chipElement.querySelectorAll('span');
-
-                spans.forEach(span => {
-                    if (span.id === 'coche') { 
-                        span.innerHTML = `${chipName} &times;`; // Mettre à jour le nom
-                    } else {
-                        span.innerHTML = `${chipName}`; // Mettre à jour le nom sans croix
-                    }
-                });
+                // Mettre à jour le nom de la chip
+                if (chipElement.id === 'coche') { 
+                    chipElement.innerHTML = `${chipName} &times;`; // Mettre à jour le nom
+                } else {
+                    chipElement.innerHTML = `${chipName}`; // Mettre à jour le nom sans croix
+                }
 
                 // Sélectionner le bouton à l'intérieur du chipelement
                 const bt = chipElement.querySelector('button');
